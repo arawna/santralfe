@@ -1,3 +1,7 @@
+*{
+  padding: 0px;
+  margin: 0px;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,8 +10,34 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.bgColorDiv{
+  background: rgb(0,141,218);
+  background: linear-gradient(90deg, rgba(0,141,218,1) 0%, rgba(65,201,226,1) 35%, rgba(0,141,218,1) 100%);
+}
+.leftMenu{
+  background: rgb(172,226,225);
+  background: linear-gradient(121deg, rgba(172,226,225,1) 0%, rgba(143,208,207,1) 35%, rgba(124,176,175,1) 100%);
+}
+.logoText{
+  text-shadow: 2px 0 #008DDA, -2px 0 #008DDA, 0 2px #008DDA, 0 -2px #008DDA, 1px 1px #008DDA, -1px -1px #008DDA, 1px -1px #008DDA, -1px 1px #008DDA; 
+}
+.leftMenuPage{
+  font-weight: 600;
+  padding-left: 20px;
+  padding-bottom: 3px;
+  margin-top: 10px;
+  font-size: 20px;
+  color: #008DDA;
+  border-bottom: 1px solid #008DDA; 
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: 0.2s;
+}
+.leftMenuPage:hover{
+  color: #F7EEDD;
+  background-color: #6ab6df;
+  transition-duration: 0.2s;
+  border-color: #F7EEDD;
 }
