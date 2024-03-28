@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import Papa from "papaparse";
+import axios from "axios";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -20,6 +22,7 @@ const VisuallyHiddenInput = styled("input")({
 export default function CsvPage() {
 
   let [file,setFile] = useState();
+  let [arrayData, setArrayData] = useState([]);
 
   const MySwal = withReactContent(Swal)
 
@@ -36,6 +39,41 @@ export default function CsvPage() {
     }
     setFile(e.target.files[0])
   }
+
+  const handleUpload = () => {
+    Papa.parse(file, {
+      complete: function(results) {
+        //console.log("Finished:", results.data.length);
+        setArrayData(results.data)
+      }}
+    )
+  }
+
+  useEffect(() => {
+    if(arrayData.length > 0){
+      let dataList = [];
+      arrayData.forEach((item) => {
+        if(item.length > 1){
+          dataList.push({
+            Name: item[0],
+            PhoneNumber: item[1],
+            TC: item[2]
+          })
+        }
+      })
+      console.log(dataList)
+      // api isteği burada gidecek
+      axios.post("http://38.242.146.83:3001/insertCustomer",dataList).then((res) => {
+        console.log(res.data)
+        Swal.fire({
+          icon:"success",
+          text:"Yükleme başarılı"
+        })
+      }).catch((res) => {
+        console.log(res)
+      })
+    }
+  },[arrayData])
 
   return (
     <div>
@@ -55,7 +93,7 @@ export default function CsvPage() {
         </Button>
         {file && <span style={{marginLeft:"10px"}}><b>Seçilen Dosya:</b> {file.name}</span>}
         <div>
-          <Button variant="contained" style={{width:"500px",marginTop:"15px"}}>Yükle</Button>
+          <Button onClick={() => handleUpload()} variant="contained" style={{width:"500px",marginTop:"15px"}}>Yükle</Button>
         </div>
       </div>
     </div>

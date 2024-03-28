@@ -17,7 +17,7 @@ export default function AgentPage() {
 
   useEffect(() => {
     if(!joined){
-      socket.emit("joinRoom", "2001");
+      socket.emit("joinRoom", localStorage.getItem("token"));
       setJoined(true)
     }
   },[joined])

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import axios from "axios";
+import Swal from 'sweetalert2';
 
 export default function LoginPage() {
 
@@ -12,8 +14,25 @@ export default function LoginPage() {
 
     const handleLogin = () => {
         console.log({userName,password})
-        localStorage.setItem("token","abctoken")
-        navigate("/")
+        axios.post("http://38.242.146.83:3001/login",{
+            Name: userName,
+            Password: password
+        }).then((res) => {
+            console.log(res.data)
+            if(res.data.loginStatus === true){
+                localStorage.setItem("role",res.data.role)
+                localStorage.setItem("token",userName)
+                navigate("/")
+            }
+        }).catch((res) => {
+            console.log(res.response.data)
+            Swal.fire({
+                icon:"error",
+                title:"Hata!",
+                text:"Kullanıcı adı yada şifre hatalı"
+            });
+        })
+
     }
 
     useEffect(() => {

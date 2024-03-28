@@ -2,5 +2,5 @@
 //     apiUrl : 'https://google.com'
 // }
 module.exports = {
-    apiUrl : 'http://localhost:5000'
+    apiUrl : 'http://38.242.146.83:3005'
 }
