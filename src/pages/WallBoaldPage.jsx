@@ -33,7 +33,7 @@ export default function WallBoaldPage({queuList,agentList,queuAmount}) {
                 </TableHead>
                 <TableBody>
                   {queuList.map((item,index) => (
-                    <TableRow key={index}>
+                    <TableRow key={index} style={item.waitingNumber !== "-" ? {backgroundColor:"orange"} : {}}>
                       <TableCell component="th" scope="row">
                         {item.waitingNumber}
                       </TableCell>

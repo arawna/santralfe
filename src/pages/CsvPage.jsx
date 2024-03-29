@@ -77,6 +77,25 @@ export default function CsvPage() {
     }
   },[arrayData])
 
+  const handleDeleteLast = () => {
+    Swal.fire({
+      icon:"question",
+      title:"Silmek istediğinize eminmisiniz?",
+      showDenyButton:true,
+      confirmButtonText:"Evet",
+      denyButtonText:"Hayır"
+    }).then((result) => {
+      if(result.isConfirmed){
+        axios.post("http://38.242.146.83:3001/deleteLastInsertedData").then((res) => {
+          Swal.fire({
+            icon:"success",
+            text:"Başarıyla silindi"
+          })
+        })
+      }
+    })
+  }
+
   return (
     <div>
       <h1 style={{ marginLeft: "20px", paddingTop: "10px", color: "#008DDA" }}>
@@ -96,6 +115,9 @@ export default function CsvPage() {
         {file && <span style={{marginLeft:"10px"}}><b>Seçilen Dosya:</b> {file.name}</span>}
         <div>
           <Button onClick={() => handleUpload()} variant="contained" style={{width:"500px",marginTop:"15px"}}>Yükle</Button>
+        </div>
+        <div style={{marginTop:"15px"}}>
+          <Button onClick={() => handleDeleteLast()} style={{width:"500px",backgroundColor:"red"}} variant="contained" >Son Eklenen Datayı Sil</Button>
         </div>
       </div>
     </div>
