@@ -39,7 +39,7 @@ export default function WallBoaldPage({queuList,agentList,queuAmount}) {
                       </TableCell>
                       <TableCell>{item.waitingCustomerName}</TableCell>
                       <TableCell>{item.queueName}</TableCell>
-                      <TableCell>{item.waitingTime}</TableCell>
+                      <TableCell>{item.waitingTime !== "-" ? item.waitingTime.slice(0,-8) : item.waitingTime}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -66,7 +66,7 @@ export default function WallBoaldPage({queuList,agentList,queuAmount}) {
                       </TableCell>
                       <TableCell>{item.connectionName}</TableCell>
                       <TableCell>{item.agentName}</TableCell>
-                      <TableCell>{item.connectionTime}</TableCell>
+                      <TableCell>{item.connectionTime.slice(0,-8)}</TableCell>
                     </TableRow>
                   ))}
                   {agentList.filter(item => item.connectionNumber === "-").map((item,index) => (
