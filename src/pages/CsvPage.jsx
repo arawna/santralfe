@@ -57,7 +57,9 @@ export default function CsvPage() {
           dataList.push({
             Name: item[0],
             PhoneNumber: item[1],
-            TC: item[2]
+            TC: item[2],
+            Note: item[3],
+            Payment: item[4]
           })
         }
       })

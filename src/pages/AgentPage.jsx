@@ -3,6 +3,8 @@ import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import { socket } from '../socket';
 import { Button } from "@mui/material";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function AgentPage() {
   let [caller, setCaller] = useState({
@@ -10,8 +12,10 @@ export default function AgentPage() {
     surName: "",
     phone: "",
     tc: "",
-    note: "",
+    payment: "",
+    Id: null
   });
+  let [note,setNote] = useState("");
 
   let [joined,setJoined] = useState(false);
 
@@ -29,9 +33,31 @@ export default function AgentPage() {
       surName:data.callerName || "",
       phone:data.callerNumber || "",
       tc:data.tc || "",
-      note:data.note || ""
+      payment: data.payment || "",
+      Id: data.Id || null
     })
+    setNote(data.note)
   })
+
+  const handleSave = () => {
+    if(caller.Id){
+      axios.post("http://38.242.146.83:3001/updateNote",{
+        Id:caller.Id,
+        Note:note
+      }).then((res) => {
+        Swal.fire({
+          icon:"success",
+          text:"Kayıt yapıldı"
+        })
+      })
+    }else{
+      Swal.fire({
+        icon:"error",
+        text:"Boş kayıt yapılamaz"
+      })
+    }
+    
+  }
 
   return (
     <div>
@@ -54,9 +80,9 @@ export default function AgentPage() {
             <div style={{padding:"10px"}}>
                 <TextField
                 disabled
-                id="surName"
-                label="Soy Ad"
-                value={caller.surName}
+                id="payment"
+                label="Ödeme"
+                value={caller.payment}
                 style={{ width: "100%", marginTop:"10px"}}
                 />
             </div>
@@ -90,14 +116,15 @@ export default function AgentPage() {
                 rows={4}
                 id="note"
                 label="Not"
-                value={caller.note}
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
                 style={{ width: "100%", marginTop:"10px"}}
                 />
             </div>
           </Grid>
         </Grid>
         <div style={{marginLeft:"7px"}}>
-          <Button variant="contained">
+          <Button onClick={() => handleSave()} variant="contained">
             Kaydet
           </Button>
         </div>

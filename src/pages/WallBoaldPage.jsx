@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 
-export default function WallBoaldPage({queuList,agentList}) {
+export default function WallBoaldPage({queuList,agentList,queuAmount}) {
 
   return (
     <div>
@@ -17,6 +17,7 @@ export default function WallBoaldPage({queuList,agentList}) {
       </h1>
       <hr style={{ marginTop: "10px", borderColor: "#008DDA" }} />
       <div style={{padding:"10px"}}>
+        <div style={{textAlign:"center",fontSize:"18px",fontWeight:"600",marginBottom:"10px",color:"#008DDA"}} >Kuruk Sayısı: {queuAmount}</div>
         <Grid container spacing={1}>
           <Grid xs={6}>
             <div style={{textAlign:"center",backgroundColor:"#008DDA",padding:"5px",color:"#F7EEDD",fontWeight:"bold",borderRadius:"10px 10px 0px 0px"}}>Kuyruk Listesi</div>
@@ -58,7 +59,17 @@ export default function WallBoaldPage({queuList,agentList}) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {agentList.map((item,index) => (
+                  {agentList.filter(item => item.connectionNumber !== "-").map((item,index) => (
+                    <TableRow key={index} style={{backgroundColor:"#90D26D"}}>
+                      <TableCell component="th" scope="row">
+                        {item.connectionNumber}
+                      </TableCell>
+                      <TableCell>{item.connectionName}</TableCell>
+                      <TableCell>{item.agentName}</TableCell>
+                      <TableCell>{item.connectionTime}</TableCell>
+                    </TableRow>
+                  ))}
+                  {agentList.filter(item => item.connectionNumber === "-").map((item,index) => (
                     <TableRow key={index}>
                       <TableCell component="th" scope="row">
                         {item.connectionNumber}

@@ -35,6 +35,8 @@ export default function MainPage() {
     let [queuList,setQueuList] = useState([]);
     let [agentList,setAgentList] = useState([]);
 
+    let [queuAmount,setQueuAmount] = useState(0);
+
     const reloadValues = () => {
         if (activePage === 'wallboard') {
         //   api.getAgentConnection().then(resp => {
@@ -43,12 +45,16 @@ export default function MainPage() {
         
     
         }
-        axios.post("http://38.242.146.83:3001/getActiveQueueConnection").then((res) => {
-            setQueuList(res.data)
-        })
-        axios.post("http://38.242.146.83:3001/getActiveAgentConnection").then((res) => {
-            setAgentList(res.data)
-        })
+        if(localStorage.getItem("role") === "admin"){
+            axios.post("http://38.242.146.83:3001/getActiveQueueConnection").then((res) => {
+                setQueuList(res.data)
+                setQueuAmount(res.data.filter(item => item.waitingCustomerName !== "-").length)
+            })
+            axios.post("http://38.242.146.83:3001/getActiveAgentConnection").then((res) => {
+                setAgentList(res.data)
+            })
+        }
+        
         var agentConnectionTimeout = setTimeout(reloadValues, 5000);
         // if (activePage !== 'wallboard') {
         //   clearTimeout(agentConnectionTimeout);
@@ -82,7 +88,7 @@ export default function MainPage() {
                 <div style={{backgroundColor:"#F7EEDD",minHeight:"100vh"}}>
                     {activePage === "wallboard" && 
                         <div>
-                            <WallBoaldPage queuList={queuList} agentList={agentList} />
+                            <WallBoaldPage queuList={queuList} agentList={agentList} queuAmount={queuAmount} />
                         </div>
                     }
                     {activePage === "csv" && 
