@@ -24,6 +24,13 @@ export default function CsvPage() {
   let [file,setFile] = useState();
   let [arrayData, setArrayData] = useState([]);
 
+  let [dataCount,setDataCount] = useState(0);
+
+  useEffect(() => {
+    //api istek at
+    updateDataCount();
+  },[])
+
   const MySwal = withReactContent(Swal)
 
   const handleSelectFile = (e) => {
@@ -71,6 +78,7 @@ export default function CsvPage() {
           icon:"success",
           text:"Yükleme başarılı"
         })
+        updateDataCount();
       }).catch((res) => {
         console.log(res)
       })
@@ -80,7 +88,8 @@ export default function CsvPage() {
   const handleDeleteLast = () => {
     Swal.fire({
       icon:"question",
-      title:"Silmek istediğinize eminmisiniz?",
+      title:"Silmek istediğinize emin misiniz?",
+      text:"Son eklenen datalar silinecek silmek istediğinize emin misiniz?",
       showDenyButton:true,
       confirmButtonText:"Evet",
       denyButtonText:"Hayır"
@@ -91,8 +100,55 @@ export default function CsvPage() {
             icon:"success",
             text:"Başarıyla silindi"
           })
+          updateDataCount();
         })
       }
+    })
+  }
+  const handleDeleteToday = () => {
+    Swal.fire({
+      icon:"question",
+      title:"Silmek istediğinize emin misiniz?",
+      text:"Bugün eklenen datalar silinecek silmek istediğinize emin misiniz?",
+      showDenyButton:true,
+      confirmButtonText:"Evet",
+      denyButtonText:"Hayır"
+    }).then((result) => {
+      if(result.isConfirmed){
+        axios.post("http://38.242.146.83:3001/deleteTodayInsertedDataCustomerData").then((res) => {
+          Swal.fire({
+            icon:"success",
+            text:"Başarıyla silindi"
+          })
+          updateDataCount();
+        })
+      }
+    })
+  }
+  const handleDeleteAll = () => {
+    Swal.fire({
+      icon:"question",
+      title:"Silmek istediğinize emin misiniz?",
+      text:"Bütün datalar silinecek silmek istediğinize emin misiniz?",
+      showDenyButton:true,
+      confirmButtonText:"Evet",
+      denyButtonText:"Hayır"
+    }).then((result) => {
+      if(result.isConfirmed){
+        axios.post("http://38.242.146.83:3001/deleteAllData").then((res) => {
+          Swal.fire({
+            icon:"success",
+            text:"Başarıyla silindi"
+          })
+          updateDataCount();
+        })
+      }
+    })
+  }
+
+  const updateDataCount = () => {
+    axios.post("http://38.242.146.83:3001/getCountCustomerData").then((res) => {
+      setDataCount(res.data)
     })
   }
 
@@ -102,6 +158,9 @@ export default function CsvPage() {
         Csv Yükleme
       </h1>
       <hr style={{ marginTop: "10px", borderColor: "#008DDA" }} />
+      <div style={{textAlign:"center",fontSize:"20px",fontWeight:"600",color:"#008DDA",marginTop:"5px"}}>
+        Toplam Data Sayısı: {dataCount}
+      </div>
       <div style={{padding:"10px"}}>
         <Button
           component="label"
@@ -118,6 +177,12 @@ export default function CsvPage() {
         </div>
         <div style={{marginTop:"15px"}}>
           <Button onClick={() => handleDeleteLast()} style={{width:"500px",backgroundColor:"red"}} variant="contained" >Son Eklenen Datayı Sil</Button>
+        </div>
+        <div style={{marginTop:"15px"}}>
+          <Button onClick={() => handleDeleteToday()} style={{width:"500px",backgroundColor:"red"}} variant="contained" >Bugün Eklenen Datayı Sil</Button>
+        </div>
+        <div style={{marginTop:"15px"}}>
+          <Button onClick={() => handleDeleteAll()} style={{width:"500px",backgroundColor:"red"}} variant="contained" >Tüm Datayı Sil</Button>
         </div>
       </div>
     </div>

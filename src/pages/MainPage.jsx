@@ -20,7 +20,7 @@ export default function MainPage() {
         reloadValues()
     },[])
 
-    let [activePage, setActivePage] = useState("agentpage");
+    let [activePage, setActivePage] = useState(localStorage.getItem("role") === "admin" ? "wallboard" : "agentpage");
 
     const handleChangeActivePage = (pageName) => {
         setActivePage(pageName);

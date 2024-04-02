@@ -34,12 +34,12 @@ export default function WallBoaldPage({queuList,agentList,queuAmount}) {
                 <TableBody>
                   {queuList.map((item,index) => (
                     <TableRow key={index} style={item.waitingNumber !== "-" ? {backgroundColor:"orange"} : {}}>
-                      <TableCell component="th" scope="row">
+                      <TableCell style={{padding:"2px"}} component="th" scope="row">
                         {item.waitingNumber}
                       </TableCell>
-                      <TableCell>{item.waitingCustomerName}</TableCell>
-                      <TableCell>{item.queueName}</TableCell>
-                      <TableCell>{item.waitingTime !== "-" ? item.waitingTime.slice(0,-8) : item.waitingTime}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.waitingCustomerName}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.queueName}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.waitingTime !== "-" ? item.waitingTime.slice(0,-8) : item.waitingTime}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -61,22 +61,22 @@ export default function WallBoaldPage({queuList,agentList,queuAmount}) {
                 <TableBody>
                   {agentList.filter(item => item.connectionNumber !== "-").map((item,index) => (
                     <TableRow key={index} style={{backgroundColor:"#90D26D"}}>
-                      <TableCell component="th" scope="row">
+                      <TableCell style={{padding:"2px"}} component="th" scope="row">
                         {item.connectionNumber}
                       </TableCell>
-                      <TableCell>{item.connectionName}</TableCell>
-                      <TableCell>{item.agentName}</TableCell>
-                      <TableCell>{item.connectionTime.slice(0,-8)}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.connectionName}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.agentName}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.connectionTime.slice(0,-8)}</TableCell>
                     </TableRow>
                   ))}
                   {agentList.filter(item => item.connectionNumber === "-").map((item,index) => (
                     <TableRow key={index}>
-                      <TableCell component="th" scope="row">
+                      <TableCell style={{padding:"2px"}} component="th" scope="row">
                         {item.connectionNumber}
                       </TableCell>
-                      <TableCell>{item.connectionName}</TableCell>
-                      <TableCell>{item.agentName}</TableCell>
-                      <TableCell>{item.connectionTime}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.connectionName}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.agentName}</TableCell>
+                      <TableCell style={{padding:"2px"}}>{item.connectionTime}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
